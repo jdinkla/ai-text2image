@@ -6,6 +6,7 @@ Example-App that shows the integration of [GPT3.5](https://platform.openai.com/d
 2. Create a scence description using GPT3.5
 3. Create an image using the description using DALL-E 2.
 
+![screenshot](docs/text2image.png)
 
 ## Installation
 
