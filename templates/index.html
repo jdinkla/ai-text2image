@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Generate an image with GPT and DALL-E 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Generate an image with GPT and DALL-E 2</h1>
+    <p>
+        Examples:
+    </p>
+    <ul>
+        <li>Hänsel and Gretel see the house of the witch</li>
+        <li>Dr. Faustus meets Gretchen for the first time</li>
+        <li>Shakespeare presents Macbeth</li>
+    </ul>
+    <form method="post">
+        <label for="text">Enter a description of the sitation you want to paint:</label>
+        <input type="text" id="text" name="text">
+        <input type="submit" value="Submit" onclick="showLoader();">
+    </form>
+    {% if text %}
+    <p>
+        input: {{ text }}
+    </p>
+    {% endif %}
+    {% if description %}
+    <p>
+        description: {{ description }}
+    </p>
+    {% endif %}
+    <div class="loader" style="display: none;" id="loader"></div>
+    {% if image_url %}
+        <div class="image" style="display: block;" id="image">
+            <img src="{{ image_url }}" alt="Image">
+        </div>
+    {% endif %}
+    <script>
+        function showLoader() {
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("image").style.display = "none";
+        }
+    </script>
+</body>
+</html>
