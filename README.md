@@ -10,6 +10,8 @@ You need an OpenAI-API-key in order to run this example.
 
 ![screenshot](docs/text2image.png)
 
+The application is written in [Python](https://www.python.org/) using [Flask](https://flask.palletsprojects.com/en/2.2.x/). It uses [langchain](https://python.langchain.com/en/latest/index.html) and the [OpenAI API](https://openai.com/blog/openai-api).
+
 ## Installation
 
 ```shell
