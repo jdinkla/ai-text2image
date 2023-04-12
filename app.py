@@ -21,6 +21,24 @@ prompt = PromptTemplate(
 
 chain = LLMChain(llm=OpenAI(temperature=0.5), prompt=prompt)
 
+
+def describe(chain, question):
+    print("question: " + question)
+    description = chain.predict(question=question)
+    print("description: " + description)
+    return description
+
+
+def image_url(description):
+    response = Image.create(
+        prompt=description,
+        n=1,
+        size="1024x1024"
+    )
+    print(response)
+    return response['data'][0]['url']
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -29,18 +47,11 @@ def index():
 @app.route('/', methods=['POST'])
 def get_image():
     question = request.form['text']
-    print("question: " + question)
-    description = chain.predict(question=question)
-    print(description)
-    response = Image.create(
-        prompt=description,
-        n=1,
-        size="1024x1024"
-    )
-    print(response)
-    image_url = response['data'][0]['url']
-    return render_template('index.html', text=question, description=description, image_url=image_url)
+    description = describe(chain, question)
+    url = image_url(description)
+    return render_template('index.html', text=question, description=description, image_url=url)
 
 
 if __name__ == '__main__':
+    print("chain: " + chain.json())
     app.run(debug=True)
