@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 from langchain import PromptTemplate, OpenAI, LLMChain
 from openai import Image
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__, static_folder='static')
 
@@ -23,9 +26,9 @@ chain = LLMChain(llm=OpenAI(temperature=0.5), prompt=prompt)
 
 
 def describe(chain, question):
-    print("question: " + question)
+    logging.debug("question: " + question)
     description = chain.predict(question=question)
-    print("description: " + description)
+    logging.debug("description: " + description)
     return description
 
 
@@ -35,7 +38,7 @@ def image_url(description):
         n=1,
         size="1024x1024"
     )
-    print(response)
+    logging.debug(response)
     return response['data'][0]['url']
 
 
@@ -53,5 +56,5 @@ def get_image():
 
 
 if __name__ == '__main__':
-    print("chain: " + chain.json())
+    logging.debug("chain: " + chain.json())
     app.run(debug=True)
