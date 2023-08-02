@@ -15,7 +15,8 @@ The application is written in [Python](https://www.python.org/) using [Flask](ht
 ## Installation
 
 ```shell
-make init
+$ make init
+$ source .venv/ai/bin/activate
 ```
 
 ## Running 
@@ -23,8 +24,8 @@ make init
 You need an OpenAI-API-key in order to run this example.
 
 ```shell
-export OPENAI_API_KEY=<CREATE-A-KEY-AND-INSERT-HERE>
-make run
+$ export OPENAI_API_KEY=<CREATE-A-KEY-AND-INSERT-HERE>
+$ make run
 ```
 
 Open the webbrowser at http://127.0.0.1:5000.
