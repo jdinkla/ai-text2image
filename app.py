@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
-from langchain import PromptTemplate, OpenAI, LLMChain
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
 from openai import Image
 import logging
 
