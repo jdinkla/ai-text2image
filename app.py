@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
-from langchain.chains import LLMChain
-from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from openai import Image
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import StrOutputParser
+from openai import OpenAI
+
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -19,44 +21,37 @@ Do not use the following words: [knob].
 Question: {question}
 """
 
-prompt = PromptTemplate(
-    input_variables=["question"],
-    template=template
-)
+prompt = PromptTemplate.from_template(template)
+runnable = prompt | ChatOpenAI() | StrOutputParser()
 
-chain = LLMChain(llm=OpenAI(temperature=0.5), prompt=prompt)
+client = OpenAI()
 
-
-def describe(chain, question):
+def generateDescription(question):
     logging.debug("question: " + question)
-    description = chain.predict(question=question)
+    return runnable.invoke({"question": question})
+
+def generateImage(description):
     logging.debug("description: " + description)
-    return description
-
-
-def image_url(description):
-    response = Image.create(
+    response = client.images.generate(
+        model="dall-e-3",
         prompt=description,
+        size="1024x1024",
+        quality="standard",
         n=1,
-        size="1024x1024"
     )
     logging.debug(response)
-    return response['data'][0]['url']
-
+    return response.data[0].url
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/', methods=['POST'])
 def get_image():
     question = request.form['text']
-    description = describe(chain, question)
-    url = image_url(description)
+    description = generateDescription(question)
+    url = generateImage(description)
     return render_template('index.html', text=question, description=description, image_url=url)
 
-
 if __name__ == '__main__':
-    logging.debug("chain: " + chain.json())
     app.run(debug=True)
