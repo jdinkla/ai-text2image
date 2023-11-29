@@ -6,4 +6,4 @@ run:
 	python app.py
 
 freeze:
-	pip freeze > requirements.txt
+	pip freeze -l > requirements.txt
