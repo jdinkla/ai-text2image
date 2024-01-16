@@ -16,7 +16,7 @@ The application is written in [Python](https://www.python.org/) using [Flask](ht
 
 ```shell
 $ make init
-$ source .venv/ai/bin/activate
+$ source venv/ai/bin/activate
 ```
 
 ## Running 
