@@ -30,4 +30,10 @@ $ make run
 
 Open the webbrowser at http://127.0.0.1:5000.
 
-(c) 2023 Jörn Dinkla
+## Upgrade dependencies
+
+```shell
+$ pip install aiohttp --upgrade
+```
+
+(c) 2023 - 2024 Jörn Dinkla
