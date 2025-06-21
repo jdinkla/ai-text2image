@@ -1,22 +1,30 @@
 from flask import Flask, render_template, request
 from langchain.prompts import PromptTemplate
 from openai import Image
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import StrOutputParser
 from openai import OpenAI
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
 
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+config = {
+    "model": "dall-e-3", 
+    "quality": "standard"
+}
+
+# config = {
+#     "model": "gpt-image-1",
+#     "quality": "medium"
+# }
+
 app = Flask(__name__, static_folder='static')
 
 template = """
-You describe an image for a text2image AI.
-It is important to describe the contents with keywords that can be recognised by the AI.
-Use adjectives to describe details. 
-Limit your answer to at most 75 words.
-Do not use the following words: [knob].
+You are an expert in generating image descriptions for text-to-image AI models.
+
+You describe an image for a text2image AI. Limit your answer to at most 75 words.
 
 Question: {question}
 """
@@ -33,10 +41,10 @@ def generateDescription(question):
 def generateImage(description):
     logging.debug("description: " + description)
     response = client.images.generate(
-        model="dall-e-3",
+        model=config["model"],
         prompt=description,
         size="1024x1024",
-        quality="standard",
+        quality=config["quality"],
         n=1,
     )
     logging.debug(response)

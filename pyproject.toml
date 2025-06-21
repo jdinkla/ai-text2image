@@ -1,0 +1,18 @@
+[project]
+name = "ai_text_2_image"
+version = "0.0.2"
+readme = "README.md"
+dependencies = [
+    "flask>=3.1.1",
+    "langchain>=0.3.26",
+    "langchain-community>=0.3.26",
+    "langchain-openai>=0.3.24",
+    "openai>=1.90.0",
+]
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = "src"
